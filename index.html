@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Clock KFC GAMER</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  font-family: Arial;
+}
+
+/* ===== CLOCK UI ===== */
+.clock-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Analog Clock */
+.analog-clock {
+  width: 260px;
+  height: 260px;
+  border: 8px solid #00ffc3;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 40px #00ffc3;
+  transform: perspective(700px) rotateX(15deg);
+}
+
+.brand {
+  position: absolute;
+  top: 68%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #00ffc3;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 20px #00ffc3;
+}
+
+.center {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom;
+  transform: translateX(-50%);
+}
+
+.hour { width: 6px; height: 65px; background: white; }
+.minute { width: 4px; height: 90px; background: #00ffc3; }
+.second { width: 2px; height: 100px; background: red; }
+
+.digital {
+  margin-top: 30px;
+  font-size: 40px;
+  color: #00ffc3;
+  text-shadow: 0 0 20px #00ffc3;
+}
+
+.date {
+  color: white;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- CLOCK -->
+<div class="clock-container">
+
+  <div class="analog-clock">
+    <div class="brand">KFC<br>GAMER</div>
+    <div class="hand hour" id="hour"></div>
+    <div class="hand minute" id="minute"></div>
+    <div class="hand second" id="second"></div>
+    <div class="center"></div>
+  </div>
+
+  <div class="digital" id="digital">00:00:00</div>
+  <div class="date" id="date"></div>
+
+</div>
+
+<script>
+function updateClock() {
+  const now = new Date();
+
+  let h = now.getHours();
+  let m = now.getMinutes();
+  let s = now.getSeconds();
+
+  const hourDeg = (h % 12) * 30 + m * 0.5;
+  const minuteDeg = m * 6;
+  const secondDeg = s * 6;
+
+  hour.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+  minute.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+  second.style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+
+  let ampm = h >= 12 ? "PM" : "AM";
+  let dh = h % 12 || 12;
+
+  dh = dh < 10 ? "0" + dh : dh;
+  m = m < 10 ? "0" + m : m;
+  s = s < 10 ? "0" + s : s;
+
+  digital.innerText = `${dh}:${m}:${s} ${ampm}`;
+
+  date.innerText = now.toDateString();
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
